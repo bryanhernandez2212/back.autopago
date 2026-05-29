@@ -1,0 +1,535 @@
+# PRD — Sistema Administrativo de Compra, Venta y Financiamiento de Autos y Terrenos
+
+# 1. Descripción General
+
+El proyecto consiste en el desarrollo de una aplicación móvil administrativa enfocada en la gestión de compra, venta y financiamiento de autos y terrenos.
+
+La aplicación permitirá registrar operaciones comerciales, administrar clientes y vendedores, controlar financiamientos a pagos fijos, generar mensualidades automáticamente y llevar seguimiento completo de pagos, adeudos y pagarés en formato PDF.
+
+El sistema estará diseñado para facilitar el control financiero y administrativo de operaciones realizadas a contado o mediante pagos mensuales definidos entre vendedor y comprador.
+
+La solución utilizará una arquitectura desacoplada separando frontend y backend.
+
+---
+
+# 2. Objetivo General
+
+Desarrollar una aplicación móvil administrativa que permita gestionar de forma eficiente la compra, venta y financiamiento de autos y terrenos, automatizando el control de mensualidades, pagos y generación de pagarés PDF para cada operación financiera.
+
+---
+
+# 3. Objetivos Específicos
+
+## 3.1 Gestión de Inventario
+
+* Registrar autos y terrenos disponibles.
+* Administrar información detallada de cada vehículo o propiedad.
+* Llevar control del estado de disponibilidad.
+
+---
+
+## 3.2 Gestión de Clientes y Vendedores
+
+* Registrar información personal.
+* Consultar historial de operaciones.
+
+---
+
+## 3.3 Gestión Financiera
+
+* Registrar ventas a contado o financiamiento.
+* Definir enganche y mensualidad fija.
+* Calcular automáticamente mensualidades.
+* Generar calendario de pagos.
+
+---
+
+## 3.4 Control de Pagos
+
+* Registrar pagos realizados.
+* Consultar pagos pendientes.
+* Visualizar adeudos.
+* Identificar mensualidades vencidas.
+
+---
+
+## 3.5 Generación de Pagarés
+
+* Generar automáticamente pagarés PDF.
+* Asociar un pagaré por mensualidad.
+* Permitir descarga y visualización.
+
+---
+
+## 3.6 Dashboard Administrativo
+
+* Mostrar resumen financiero.
+* Mostrar ingresos y adeudos.
+* Visualizar clientes morosos.
+* Mostrar inventario disponible.
+
+---
+
+# 4. Tipo de Sistema
+
+El sistema será una aplicación móvil administrativa basada en arquitectura cliente-servidor.
+
+El frontend será desarrollado en Flutter y el backend funcionará como API REST independiente.
+
+El sistema estará orientado a la administración financiera de créditos personalizados para autos y terrenos.
+
+---
+
+# 5. Arquitectura del Proyecto
+
+# Frontend
+
+Aplicación móvil desarrollada con Flutter.
+
+Responsabilidades:
+
+* Interfaz gráfica.
+* Navegación.
+* Formularios.
+* Validaciones.
+* Consumo de APIs.
+* Gestión de sesiones.
+* Visualización de PDFs.
+
+---
+
+# Backend
+
+API REST desarrollada de forma independiente.
+
+Responsabilidades:
+
+* Lógica de negocio.
+* Seguridad.
+* Gestión financiera.
+* Generación de mensualidades.
+* Generación de PDFs.
+* Persistencia de datos.
+* Autenticación.
+* Documentación Swagger.
+
+---
+
+# 6. Tecnologías Recomendadas
+
+# Frontend
+
+## Framework Principal
+
+* Flutter
+
+## Librerías Recomendadas
+
+* Riverpod o Bloc
+* Dio
+* GoRouter
+* Flutter Secure Storage
+* Syncfusion Flutter PDF Viewer
+* Printing
+* FL Chart
+
+---
+
+# Backend
+
+## Framework Principal
+
+* NestJS
+
+## Librerías Recomendadas
+
+* Prisma ORM
+* JWT
+* Bcrypt
+* Class Validator
+* Swagger
+* PDFKit
+
+---
+
+# Base de Datos
+
+## Motor
+
+* PostgreSQL
+
+---
+
+# 7. Módulos del Sistema
+
+# 7.1 Módulo de Autenticación
+
+Funciones:
+
+* Inicio de sesión.
+* Gestión de sesiones.
+* Protección JWT.
+
+Roles:
+
+* Administrador
+* Vendedor
+* Cajero
+
+---
+
+# 7.2 Módulo de Usuarios
+
+Funciones:
+
+* Crear usuarios.
+* Editar usuarios.
+* Asignar roles.
+
+---
+
+# 7.3 Módulo de Clientes
+
+Funciones:
+
+* Registrar clientes.
+* Consultar historial financiero.
+
+Datos:
+
+* Nombre
+* Teléfono
+* Dirección
+* INE
+* CURP
+* RFC
+
+---
+
+# 7.4 Módulo de Vendedores
+
+Funciones:
+
+* Registrar vendedores.
+* Consultar historial de operaciones.
+
+---
+
+# 7.5 Módulo de Vehículos
+
+Funciones:
+
+* Registrar vehículos.
+* Administrar inventario.
+
+Datos:
+
+* Marca
+* Modelo
+* Año
+* VIN
+* Color
+* Kilometraje
+* Precio
+* Fotografías
+
+---
+
+# 7.6 Módulo de Terrenos
+
+Funciones:
+
+* Registrar terrenos.
+* Administrar inventario.
+
+Datos:
+
+* Ubicación
+* Medidas
+* Superficie
+* Precio
+* Fotografías
+
+---
+
+# 7.7 Módulo de Ventas
+
+Funciones:
+
+* Registrar operación.
+* Asociar comprador y vendedor.
+* Definir tipo de pago.
+
+Tipos:
+
+* Contado
+* Financiamiento
+
+---
+
+# 7.8 Módulo de Financiamiento
+
+Funciones:
+
+* Registrar enganche.
+* Definir mensualidad fija.
+* Calcular saldo restante.
+* Generar mensualidades.
+
+Flujo:
+
+1. Registrar precio total.
+2. Registrar enganche.
+3. Calcular deuda restante.
+4. Registrar mensualidad fija.
+5. Calcular número de pagos.
+6. Generar calendario automático.
+
+---
+
+# 7.9 Módulo de Mensualidades
+
+Funciones:
+
+* Consultar pagos pendientes.
+* Registrar pagos.
+* Marcar mensualidades vencidas.
+* Consultar historial.
+
+Estados:
+
+* Pendiente
+* Pagada
+* Vencida
+
+---
+
+# 7.10 Módulo de Pagarés PDF
+
+Funciones:
+
+* Generar un PDF por mensualidad.
+* Descargar pagaré.
+* Visualizar PDF.
+
+Información:
+
+* Datos del comprador.
+* Datos del vendedor.
+* Información del vehículo o terreno.
+* Fecha de vencimiento.
+* Monto.
+* Número de pagaré.
+* Estado.
+
+Estados:
+
+* Pendiente
+* Pagado
+* Vencido
+
+---
+
+# 7.11 Dashboard Administrativo
+
+Indicadores:
+
+* Total vendido.
+* Total cobrado.
+* Deuda pendiente.
+* Clientes morosos.
+* Pagos próximos.
+* Inventario disponible.
+
+---
+
+# 8. Flujo Principal del Sistema
+
+## Flujo de Venta
+
+1. Registrar auto o terreno.
+2. Registrar comprador.
+3. Registrar vendedor.
+4. Seleccionar tipo de pago.
+5. Si es financiamiento:
+
+   * Definir enganche.
+   * Definir mensualidad fija.
+6. El sistema calcula:
+
+   * saldo restante
+   * número de mensualidades
+7. Generar mensualidades automáticamente.
+8. Generar pagarés PDF automáticamente.
+9. Guardar operación.
+10. Dar seguimiento financiero.
+
+---
+
+# 9. Reglas de Negocio
+
+* Los pagos mensuales serán fijos.
+* El monto mensual no podrá modificarse después de crear el financiamiento.
+* El sistema generará automáticamente todas las mensualidades.
+* El último pago podrá ajustarse si la división no es exacta.
+* Cada mensualidad tendrá un pagaré PDF asociado.
+* Los pagarés no podrán eliminarse.
+* El sistema calculará automáticamente saldos pendientes.
+* Las mensualidades vencidas cambiarán automáticamente de estado.
+
+---
+
+# 10. Base de Datos (Entidades Principales)
+
+Tablas principales:
+
+* usuarios
+* roles
+* clientes
+* vendedores
+* vehiculos
+* terrenos
+* ventas
+* financiamientos
+* mensualidades
+* pagos
+* pagares
+
+---
+
+# 11. Seguridad
+
+El sistema deberá incluir:
+
+* JWT Authentication.
+* Encriptación de contraseñas.
+* Roles y permisos.
+* Protección de APIs.
+* Validación de datos.
+
+---
+
+# 12. Documentación de API con Swagger
+
+# Objetivo
+
+Documentar todos los endpoints del backend.
+
+---
+
+# Funciones
+
+* Visualización de endpoints.
+* Pruebas de APIs.
+* Documentación automática.
+* Uso de autenticación JWT.
+
+---
+
+# Librerías
+
+* @nestjs/swagger
+* swagger-ui-express
+
+---
+
+# Módulos Documentados
+
+* Auth
+* Usuarios
+* Clientes
+* Vendedores
+* Vehículos
+* Terrenos
+* Ventas
+* Financiamientos
+* Mensualidades
+* Pagos
+* Pagarés
+
+---
+
+# 13. Generación de PDFs
+
+## Flujo
+
+1. Crear financiamiento.
+2. Generar mensualidades.
+3. Generar pagarés PDF.
+4. Guardar PDFs.
+5. Asociar PDFs al financiamiento.
+
+---
+
+# Tecnologías PDF
+
+## Backend
+
+* PDFKit
+
+## Frontend
+
+* syncfusion_flutter_pdfviewer
+* printing
+
+---
+
+# 14. Arquitectura Técnica
+
+## Frontend
+
+Flutter
+↓
+HTTP Client (Dio)
+↓
+API REST
+
+---
+
+## Backend
+
+NestJS
+↓
+Prisma ORM
+↓
+PostgreSQL
+
+---
+
+# 15. Organización Recomendada del Backend
+
+/auth
+/users
+/clients
+/sellers
+/vehicles
+/lands
+/sales
+/financings
+/installments
+/payments
+/promissory-notes
+/pdfs
+
+---
+
+# 16. MVP (Primera Versión)
+
+La primera versión incluirá:
+
+* Login.
+* Gestión de clientes.
+* Gestión de vehículos y terrenos.
+* Registro de ventas.
+* Financiamiento.
+* Generación automática de mensualidades.
+* Registro de pagos.
+* Generación de pagarés PDF.
+* Dashboard básico.
+* Swagger.
+
+---
+
+# 17. Objetivo Técnico Final
+
+Construir una plataforma móvil administrativa robusta y profesional para la gestión de ventas y financiamientos de autos y terrenos, utilizando Flutter para frontend, NestJS para backend, PostgreSQL como base de datos y Swagger para documentación de APIs, integrando además generación automática de pagarés PDF y control financiero completo.

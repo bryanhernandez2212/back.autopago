@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String?
+  password  String
+  name      String
+  role      Int      @default(2) // 1=ADMINISTRADOR, 2=VENDEDOR, 3=CAJERO
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sales   Sale[]
+  payments Payment[]
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  address   String
+  ine       String?
+  curp      String?
+  rfc       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sales Sale[]
+}
+
+model Seller {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sales Sale[]
+}
+
+model Vehicle {
+  id          Int      @id @default(autoincrement())
+  brand       String
+  model       String
+  year        Int
+  vin         String?  @unique
+  color       String?
+  mileage     Int?
+  price       Decimal
+  photos      String? // Almacenamos URLs separadas por coma
+  available   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sales Sale[]
+}
+
+model Land {
+  id          Int      @id @default(autoincrement())
+  location    String
+  measurements String?
+  area        Decimal?
+  price       Decimal
+  photos      String? // Almacenamos URLs separadas por coma
+  available   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sales Sale[]
+}
+
+model Sale {
+  id            Int       @id @default(autoincrement())
+  clientId      Int
+  sellerId      Int
+  vehicleId     Int?
+  landId        Int?
+  userId        Int
+  paymentType   String    @default("CONTADO") // CONTADO, FINANCIAMIENTO
+  totalAmount   Decimal
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  client      Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  seller      Seller      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  vehicle     Vehicle?    @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  land        Land?       @relation(fields: [landId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  financing   Financing?
+  payments    Payment[]
+}
+
+model Financing {
+  id                Int       @id @default(autoincrement())
+  saleId            Int       @unique
+  downPayment       Decimal
+  monthlyPayment    Decimal
+  remainingBalance  Decimal
+  numberOfPayments  Int
+  firstPaymentDate  DateTime
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  sale          Sale          @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  installments  Installment[]
+}
+
+model Installment {
+  id                 Int                @id @default(autoincrement())
+  financingId        Int
+  installmentNumber  Int
+  amount             Decimal
+  dueDate            DateTime
+  status             String             @default("PENDIENTE") // PENDIENTE, PAGADA, VENCIDA
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  financing       Financing         @relation(fields: [financingId], references: [id], onDelete: Cascade)
+  payment         Payment?
+  promissoryNote PromissoryNote?
+}
+
+model Payment {
+  id            Int       @id @default(autoincrement())
+  saleId        Int
+  installmentId Int?      @unique
+  userId        Int
+  amount        Decimal
+  paymentDate   DateTime  @default(now())
+  receiptNumber String?
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sale         Sale         @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  installment  Installment? @relation(fields: [installmentId], references: [id])
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PromissoryNote {
+  id                 Int                   @id @default(autoincrement())
+  installmentId      Int                   @unique
+  noteNumber         String
+  amount             Decimal
+  dueDate            DateTime
+  status             String                @default("PENDIENTE") // PENDIENTE, PAGADO, VENCIDO
+  pdfPath            String
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+
+  installment Installment @relation(fields: [installmentId], references: [id], onDelete: Cascade)
+}
